@@ -29,10 +29,20 @@ async function run() {
     await client.connect();
 
     const menuCollection=client.db('premium-dine').collection('menu');
+    const reviewCollection=client.db('premium-dine').collection('reviews');
+    const cartCollection=client.db('premium-dine').collection('carts');
 
     app.get('/menu', async(req,res)=>{
         const result= await menuCollection.find().toArray();
         res.send(result);
+    })
+
+    //cart
+    app.post('/cart',async(req,res)=>{
+      const item=req.body;
+      console.log(item);
+      const result=await cartCollection.insertOne(item);
+      res.send(result);
     })
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
