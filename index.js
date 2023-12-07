@@ -44,6 +44,16 @@ async function run() {
       const result=await cartCollection.insertOne(item);
       res.send(result);
     })
+
+    app.get('/cart', async(req,res)=>{
+      const email=req.query.email;
+      if(!email){
+        res.send([]);
+      }
+      const query= {email:email};
+      const result=await cartCollection.find(query).toArray();
+      res.send(result);
+    })
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
