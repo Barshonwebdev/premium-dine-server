@@ -29,15 +29,24 @@ async function run() {
     await client.connect();
 
     const menuCollection=client.db('premium-dine').collection('menu');
+    const usersCollection=client.db('premium-dine').collection('users');
     const reviewCollection=client.db('premium-dine').collection('reviews');
     const cartCollection=client.db('premium-dine').collection('carts');
 
+
+    // menu api 
     app.get('/menu', async(req,res)=>{
         const result= await menuCollection.find().toArray();
         res.send(result);
     })
 
-    //cart
+    // user api 
+    app.post('/users',async(req,res)=>{
+      const user=req.body;
+      const result= await usersCollection.insertOne(user);
+      res.send(result); 
+    })
+    //cart api
     app.post('/cart',async(req,res)=>{
       const item=req.body;
       console.log(item);
