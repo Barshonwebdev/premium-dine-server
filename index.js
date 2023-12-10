@@ -35,6 +35,14 @@ async function run() {
     const reviewCollection=client.db('premium-dine').collection('reviews');
     const cartCollection=client.db('premium-dine').collection('carts');
 
+    // jwt
+    app.post ('/jwt',(req,res)=>{
+      const user=req.body;
+      const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "1h",
+      });
+      res.send({token});
+    })
 
     // menu api 
     app.get('/menu', async(req,res)=>{
