@@ -36,6 +36,7 @@ async function run() {
     const usersCollection=client.db('premium-dine').collection('users');
     const reviewCollection=client.db('premium-dine').collection('reviews');
     const cartCollection=client.db('premium-dine').collection('carts');
+    const paymentCollection=client.db('premium-dine').collection('payments');
 
     // jwt
     app.post ('/jwt',(req,res)=>{
@@ -149,6 +150,13 @@ async function run() {
         clientSecret:paymentIntent.client_secret
       })
       
+    })
+
+    // payment api 
+    app.post('/payment',async (req,res)=>{
+      const payment=req.body;
+      const result=paymentCollection.insertOne(payment);
+      res.send(result);
     })
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
