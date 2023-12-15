@@ -161,6 +161,16 @@ async function run() {
       const deletedResult=await cartCollection.deleteMany(query);
       res.send({insertedResult,deletedResult});
     })
+
+    //admin stats api 
+    app.get('/admin-dashboard',async (req,res)=>{
+      const users=await usersCollection.estimatedDocumentCount();
+      const orders=await paymentCollection.estimatedDocumentCount();
+      const products=await menuCollection.estimatedDocumentCount();
+      const payments= await paymentCollection.find().toArray();
+      const revenue=payments.reduce((sum,payment)=>payment.price+sum,0) 
+      res.send({users:users, orders:orders,products:products,revenue:revenue})
+    })
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
