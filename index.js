@@ -162,6 +162,16 @@ async function run() {
       res.send({insertedResult,deletedResult});
     })
 
+    //payment history api
+    app.get('/paymenthistory',async (req,res)=>{
+      const email=req.query.email;
+      if(!email){
+        res.send([])
+      }
+      const query={email:email};
+      const result= await paymentCollection.find(query).toArray();
+      res.send(result);
+    })
     //admin stats api 
     app.get('/admin-dashboard',async (req,res)=>{
       const users=await usersCollection.estimatedDocumentCount();
