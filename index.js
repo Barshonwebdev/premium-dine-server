@@ -82,6 +82,7 @@ async function run() {
       res.send(result); 
     })
 
+    // admin api  
     app.get('/users/admin/:email', async(req,res)=>{
       const email=req.params.email;
       const query= {email:email};
@@ -100,7 +101,7 @@ async function run() {
       };
 
       const result=await usersCollection.updateOne(filter,updateDoc);
-      res.send(result);
+      res.send(result); 
     })
 
     app.delete("/users/admin/:id", async (req, res) => {
